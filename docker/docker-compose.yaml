@@ -1,0 +1,114 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: shop-postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_shop:/var/lib/postgresql/data
+      - ./postgres-init/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - shop
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U admin" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+
+  warehouse-service:
+    container_name: warehouse-service-container
+    build: ../../warehouse-service
+    image: docker-warehouse-service
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_started
+    ports:
+      - "8091:8091"
+    networks:
+      - shop
+
+
+  client-service:
+    container_name: client-service-container
+    build: ../../client-service
+    image: docker-client-service
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_started
+    ports:
+      - "8092:8092"
+    networks:
+      - shop
+
+
+  order-service:
+    container_name: order-service-container
+    build: ../../order-service
+    image: docker-oder-service
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_started
+    ports:
+      - "8090:8090"
+    networks:
+      - shop
+
+
+  product-service:
+    container_name: product-service-container
+    build: ../../product-service
+    image: docker-product-service
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_started
+    ports:
+      - "8093:8093"
+    networks:
+      - shop
+
+
+  gateway-shop:
+    container_name: gateway-shop-container
+    build: ../../gateway-shop
+    image: gateway-shop
+    ports:
+      - "8094:8094"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_started
+    networks:
+      - shop
+
+  rabbitmq:
+      image: rabbitmq:4-management
+      container_name: shop-rabbitmq
+      ports:
+        - "5672:5672"
+        - "15672:15672"
+      networks:
+        - shop
+
+volumes:
+  postgres_shop:
+
+networks:
+  shop:
+#    external: true
+
+
+
+
