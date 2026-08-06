@@ -5,9 +5,9 @@ import lombok.Builder;
 
 @Builder
 public record OrderItemRequest (
-        @NotNull
+        @NotNull(message = "Product is required")
         Long productId,
-        @NotNull
+        @NotNull(message = "Quantity is required")
         Integer quantity
 ) {
 }

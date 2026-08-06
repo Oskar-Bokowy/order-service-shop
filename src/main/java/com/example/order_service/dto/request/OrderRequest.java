@@ -7,9 +7,9 @@ import java.util.Set;
 
 @Builder
 public record OrderRequest(
-        @NotNull
+        @NotNull(message = "Client is required")
         Long clientId,
-        @NotNull
+        @NotNull(message = "Products is required")
         Set<OrderItemRequest> orderItemsRequest
 ) {
 }
