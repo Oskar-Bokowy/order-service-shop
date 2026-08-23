@@ -27,13 +27,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(OrderNotFoundException.class)
     public ResponseEntity<ErrorMessage> handleOrderNotFound(OrderNotFoundException ex) {
-        HttpStatus httpStatus = HttpStatus.NOT_FOUND;
         ErrorMessage error = new ErrorMessage(
                 ex.getMessage(),
                 LocalDateTime.now(),
-                httpStatus.value()
+                ex.getHttpStatus().value()
         );
-        return ResponseEntity.status(httpStatus).body(error);
+        return ResponseEntity.status(ex.getHttpStatus()).body(error);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
