@@ -30,7 +30,7 @@ public class GlobalExceptionHandler {
         ErrorMessage error = new ErrorMessage(
                 ex.getMessage(),
                 LocalDateTime.now(),
-                ex.getHttpStatus().value()
+                ex.getHttpStatus()
         );
         return ResponseEntity.status(ex.getHttpStatus()).body(error);
     }
@@ -41,7 +41,7 @@ public class GlobalExceptionHandler {
         ErrorMessage error = new ErrorMessage(
                 returnDefaultMessageFromValidationException(ex.getMessage()),
                 LocalDateTime.now(),
-                status.value()
+                status
         );
         return ResponseEntity.status(status).body(error);
     }
