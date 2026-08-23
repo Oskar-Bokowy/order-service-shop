@@ -29,7 +29,7 @@ public class OrderMapper {
         return Order.builder()
                 .clientId(request.clientId())
                 .createdAt(LocalDateTime.now())
-                .items(new HashSet<>()) // przed dodaniem log
+                .items(new HashSet<>())
                 .build();
     }
 }
