@@ -22,7 +22,7 @@ public class OrderController {
     }
 
     @GetMapping("/{orderId}")
-    public ResponseEntity<OrderResponse> getOrderById(@PathVariable Long orderId) {
+    public ResponseEntity<OrderResponse> getOrderById(@PathVariable @Valid Long orderId) {
         OrderResponse response = orderService.getOrderById(orderId);
         return ResponseEntity.status(201).body(response);
     }
