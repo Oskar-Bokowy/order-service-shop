@@ -70,7 +70,7 @@ public class GlobalExceptionHandler {
         ErrorMessage error = new ErrorMessage(
                 "DB ERROR",
                 LocalDateTime.now(),
-                status
+                HttpStatus.NOT_ACCEPTABLE
         );
         return ResponseEntity.status(status).body(error);
     }
