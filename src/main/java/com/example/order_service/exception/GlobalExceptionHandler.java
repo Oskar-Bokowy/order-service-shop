@@ -25,15 +25,7 @@ public class GlobalExceptionHandler {
         return LoggerFactory.getLogger(GlobalExceptionHandler.class);
     }
 
-    @ExceptionHandler(OrderNotFoundException.class)
-    public ResponseEntity<ErrorMessage> handleOrderNotFound(OrderNotFoundException ex) {
-        ErrorMessage error = new ErrorMessage(
-                ex.getMessage(),
-                LocalDateTime.now(),
-                ex.getHttpStatus().value()
-        );
-        return ResponseEntity.status(ex.getHttpStatus()).body(error);
-    }
+
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorMessage> handleValidationException(MethodArgumentNotValidException ex) {
