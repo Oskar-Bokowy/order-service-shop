@@ -30,7 +30,7 @@ public class GlobalExceptionHandler {
         ErrorMessage error = new ErrorMessage(
                 ex.getMessage(),
                 LocalDateTime.now(),
-                ex.getHttpStatus().value()
+                ex.getHttpStatus()
         );
         return ResponseEntity.status(ex.getHttpStatus()).body(error);
     }
@@ -41,7 +41,7 @@ public class GlobalExceptionHandler {
         ErrorMessage error = new ErrorMessage(
                 returnDefaultMessageFromValidationException(ex.getMessage()),
                 LocalDateTime.now(),
-                status.value()
+                status
         );
         return ResponseEntity.status(status).body(error);
     }
@@ -70,7 +70,7 @@ public class GlobalExceptionHandler {
         ErrorMessage error = new ErrorMessage(
                 "DB ERROR",
                 LocalDateTime.now(),
-                status.value()
+                status
         );
         return ResponseEntity.status(status).body(error);
     }
@@ -100,7 +100,7 @@ public class GlobalExceptionHandler {
 
         String errorMessage = "External service error";
         LocalDateTime dateTime = LocalDateTime.now();
-        HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+        int httpStatus = HttpStatus.INTERNAL_SERVER_ERROR.value();
 
         if (messageMatcher.find()) {
             errorMessage = messageMatcher.group(1);
