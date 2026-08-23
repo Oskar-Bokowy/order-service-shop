@@ -70,7 +70,7 @@ public class GlobalExceptionHandler {
         ErrorMessage error = new ErrorMessage(
                 "DB ERROR",
                 LocalDateTime.now(),
-                status.value()
+                status
         );
         return ResponseEntity.status(status).body(error);
     }
