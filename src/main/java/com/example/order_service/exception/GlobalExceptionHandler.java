@@ -100,7 +100,7 @@ public class GlobalExceptionHandler {
 
         String errorMessage = "External service error";
         LocalDateTime dateTime = LocalDateTime.now();
-        int httpStatus = HttpStatus.INTERNAL_SERVER_ERROR.value();
+        int status = HttpStatus.INTERNAL_SERVER_ERROR.value();
 
         if (messageMatcher.find()) {
             errorMessage = messageMatcher.group(1);
@@ -111,9 +111,9 @@ public class GlobalExceptionHandler {
         }
 
         if (statusMatcher.find()) {
-            httpStatus = Integer.parseInt(statusMatcher.group(1));
+            status = Integer.parseInt(statusMatcher.group(1));
         }
-        return new ErrorMessage(errorMessage, dateTime, httpStatus);
+        return new ErrorMessage(errorMessage, dateTime, status);
     }
 
 }
