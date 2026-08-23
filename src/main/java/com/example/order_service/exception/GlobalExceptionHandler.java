@@ -32,7 +32,7 @@ public class GlobalExceptionHandler {
                 LocalDateTime.now(),
                 ex.getHttpStatus().value()
         );
-        return ResponseEntity.status(ex.getHttpStatus()).body(error);
+        return ResponseEntity.status(ex.getHttpStatus().value()).body(error);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
