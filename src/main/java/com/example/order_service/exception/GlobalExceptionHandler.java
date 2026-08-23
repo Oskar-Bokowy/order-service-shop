@@ -5,6 +5,7 @@ import com.example.order_service.exception.exception.RemoteServiceException;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -60,9 +61,18 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RemoteServiceException.class)
     public ResponseEntity<ErrorMessage> handleRemoteService(RemoteServiceException ex) {
         ErrorMessage error = returnDefaultMessageFromRemoteService(ex.getMessage());
-        return ResponseEntity
-                .status(error.getHttpStatus())
-                .body(error);
+        return ResponseEntity.status(error.getHttpStatus()).body(error);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ErrorMessage> handleDataIntegrationException(DataIntegrityViolationException ex) {
+        HttpStatus status = HttpStatus.CONFLICT;
+        ErrorMessage error = new ErrorMessage(
+                "DB ERROR",
+                LocalDateTime.now(),
+                status.value()
+        );
+        return ResponseEntity.status(status).body(error);
     }
 
 

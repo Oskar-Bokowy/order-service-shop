@@ -1,7 +1,6 @@
 package com.example.order_service.restClient;
 
 import com.example.order_service.dto.response.ProductServiceResponse;
-import com.example.order_service.restClientConfig.RestClientConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

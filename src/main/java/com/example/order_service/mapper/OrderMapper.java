@@ -1,7 +1,6 @@
 package com.example.order_service.mapper;
 
 import com.example.order_service.dto.request.OrderRequest;
-import com.example.order_service.dto.response.OrderItemResponse;
 import com.example.order_service.dto.response.OrderResponse;
 import com.example.order_service.model.Order;
 import lombok.RequiredArgsConstructor;
