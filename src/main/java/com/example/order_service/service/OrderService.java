@@ -59,7 +59,9 @@ public class OrderService {
             warehouseItems.add(new WarehouseServiceRequest(item.productId(), item.quantity()));
         }
         checkIfQuantityAvailable(new WarehouseReservationRequest(warehouseItems));
-        order.calculateTotalPrice();
+        BigDecimal sum = order.getTotalPrice()
+                .add(order.getShippingCost());
+        order.setTotalPrice(sum);
         Order orderToSave = orderRepository.save(order);
         return orderMapper.toResponse(orderToSave);
     }

@@ -28,8 +28,12 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<OrderItem> items = new HashSet<>();
+
+    public void countryShippingCost(){
+        this.shippingCost = BigDecimal.valueOf(15.99);
+    }
 
     public void addItem(OrderItem item) {
         items.add(item);
@@ -44,7 +48,9 @@ public class Order {
         BigDecimal discountValue = discount != null ? discount : BigDecimal.ZERO;
         BigDecimal shippingValue = shippingCost != null ? shippingCost : BigDecimal.ZERO;
         this.totalPrice = itemsTotal.subtract(discountValue).add(shippingValue);
+        if (totalPrice.compareTo(BigDecimal.valueOf(500)) > 0) {
+            this.totalPrice = totalPrice.subtract(totalPrice.multiply(BigDecimal.valueOf(0.05)));
+        }
     }
-
 }
 
