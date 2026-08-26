@@ -74,6 +74,17 @@ public class OrderService {
     public OrderResponse updatedById(OrderRequest orderRequest, Long orderId) {
         Order existing = orderRepository.findById(orderId)
                 .orElseThrow(() -> new IllegalArgumentException("Order not found"));
-        return orderMapper.toResponse(existing);
+
+        existing.setClientId(orderRequest.clientId());
+        existing.getItems().clear();
+        for (OrderItemRequest item : orderRequest.orderItemsRequest()) {
+            OrderItem itemForSave = orderItemMapper.toEntityFromServiceProduct(getProductForOrder(item.productId()));
+            itemForSave.setQuantity(item.quantity());
+            existing.addItem(itemForSave);
+        }
+        existing.calculateTotalPrice();
+
+        Order updated = orderRepository.save(existing);
+        return orderMapper.toResponse(updated);
     }
 }
