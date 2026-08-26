@@ -37,10 +37,13 @@ public class Order {
     }
 
     public void calculateTotalPrice() {
-        this.totalPrice = items.stream()
+        BigDecimal itemsTotal = items.stream()
                 .map(item -> item.getPriceAtPurchase()
                         .multiply(BigDecimal.valueOf(item.getQuantity())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal discountValue = discount != null ? discount : BigDecimal.ZERO;
+        BigDecimal shippingValue = shippingCost != null ? shippingCost : BigDecimal.ZERO;
+        this.totalPrice = itemsTotal.subtract(discountValue).add(shippingValue);
     }
 
 }
