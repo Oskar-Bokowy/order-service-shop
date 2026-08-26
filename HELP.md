@@ -1,4 +1,4 @@
-# Read Me First (updated by B)
+
 The following was discovered as part of building this project:
 
 * The original package name 'com.example.order-service' is invalid and this project uses 'com.example.order_service' instead.
