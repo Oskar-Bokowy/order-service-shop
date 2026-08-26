@@ -1,19 +1,21 @@
-# Order Service Shop — Notes (by Claude)
+Order Service Shop
 
-This file replaces the old `HELP.md`. Rewritten from scratch on the `claude-rename` branch
-as part of a branching/merge-conflict exercise.
+Aplikacja e-commerce obsługująca zamówienia klientów oraz zarządzanie stanami magazynowymi.
 
-## Project
+Opis projektu
 
-Spring Boot service for order management.
+System umożliwia klientom składanie zamówień w sklepie internetowym, a jednocześnie zarządza dostępnością produktów w magazynie. Głównym celem projektu jest zapewnienie spójności między złożonymi zamówieniami a rzeczywistym stanem magazynowym.
 
-## Reference Documentation
-
-* [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
-* [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/4.1.0/maven-plugin)
-* [Create an OCI image](https://docs.spring.io/spring-boot/4.1.0/maven-plugin/build-image.html)
-
-## Notes
-
-* Package name uses underscore: `com.example.order_service`.
-* This note was added by the `claude` teammate branch.
+Główne funkcjonalności
+Zamówienia (Orders)
+Składanie nowych zamówień przez klienta
+Podgląd statusu zamówienia (np. nowe, w realizacji, wysłane, zakończone)
+Historia zamówień klienta
+Klienci (Clients)
+Rejestracja i zarządzanie danymi klienta
+Powiązanie zamówień z kontem klienta
+Dane kontaktowe i adresy dostawy
+Magazyn (Warehouse)
+Śledzenie stanów magazynowych produktów
+Rezerwacja towaru pod złożone zamówienie
+Aktualizacja stanu po realizacji lub anulowaniu zamówienia
