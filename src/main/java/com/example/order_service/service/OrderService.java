@@ -51,10 +51,8 @@ public class OrderService {
         checkIfClientExisting(request.clientId());
         Order order = orderMapper.toEntity(request);
         Set<WarehouseServiceRequest> warehouseItems = new HashSet<>();
+        addItemForOrder(request,order);
         for (OrderItemRequest item : request.orderItemsRequest()) {
-            OrderItem itemForSave = orderItemMapper.toEntityFromServiceProduct(getProductForOrder(item.productId()));
-            itemForSave.setQuantity(item.quantity());
-            order.addItem(itemForSave);
             warehouseItems.add(new WarehouseServiceRequest(item.productId(), item.quantity()));
         }
         checkIfQuantityAvailable(new WarehouseReservationRequest(warehouseItems));
@@ -65,26 +63,29 @@ public class OrderService {
 
 
     public OrderResponse getOrderById(Long orderId) {
-        Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new IllegalArgumentException("Order not found"));
+        Order order = findOrderById(orderId);
         return orderMapper.toResponse(order);
+    }
+
+    public Order findOrderById(Long orderId) {
+        return orderRepository.findById(orderId)
+                .orElseThrow(() -> new IllegalArgumentException("Order not found"));
     }
 
     @Transactional
     public OrderResponse updatedById(OrderRequest orderRequest, Long orderId) {
-        Order existing = orderRepository.findById(orderId)
-                .orElseThrow(() -> new IllegalArgumentException("Order not found"));
-
-        existing.setClientId(orderRequest.clientId());
+        Order existing = findOrderById(orderId);
         existing.getItems().clear();
+        addItemForOrder(orderRequest, existing);
+        existing.calculateTotalPrice();
+        return orderMapper.toResponse(existing);
+    }
+
+    private void addItemForOrder(OrderRequest orderRequest, Order order) {
         for (OrderItemRequest item : orderRequest.orderItemsRequest()) {
             OrderItem itemForSave = orderItemMapper.toEntityFromServiceProduct(getProductForOrder(item.productId()));
             itemForSave.setQuantity(item.quantity());
-            existing.addItem(itemForSave);
+            order.addItem(itemForSave);
         }
-        existing.calculateTotalPrice();
-
-        Order updated = orderRepository.save(existing);
-        return orderMapper.toResponse(updated);
     }
 }
