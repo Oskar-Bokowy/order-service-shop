@@ -2,6 +2,7 @@ package com.example.order_service.mapper;
 
 import com.example.order_service.dto.request.OrderItemRequest;
 import com.example.order_service.dto.response.OrderItemResponse;
+import com.example.order_service.dto.response.OrderResponse;
 import com.example.order_service.dto.response.ProductServiceResponse;
 import com.example.order_service.model.OrderItem;
 import org.springframework.stereotype.Component;
@@ -41,6 +42,8 @@ public class OrderItemMapper {
                 .productName(response.productName())
                 .build();
     }
+
+
 
 
 
