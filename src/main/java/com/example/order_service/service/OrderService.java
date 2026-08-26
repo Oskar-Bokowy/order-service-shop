@@ -19,6 +19,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -50,6 +51,8 @@ public class OrderService {
     public OrderResponse createOrder(OrderRequest request) {
         checkIfClientExisting(request.clientId());
         Order order = orderMapper.toEntity(request);
+        order.setDiscount(BigDecimal.ZERO);
+        order.setShippingCost(BigDecimal.ZERO);
         Set<WarehouseServiceRequest> warehouseItems = new HashSet<>();
         addItemForOrder(request,order);
         for (OrderItemRequest item : request.orderItemsRequest()) {
