@@ -46,6 +46,9 @@ public class Order {
                         .multiply(BigDecimal.valueOf(item.getQuantity())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         BigDecimal discountValue = discount != null ? discount : BigDecimal.ZERO;
+        if (discountValue.compareTo(itemsTotal) > 0) {
+            discountValue = itemsTotal;
+        }
         BigDecimal shippingValue = shippingCost != null ? shippingCost : BigDecimal.ZERO;
         this.totalPrice = itemsTotal.subtract(discountValue).add(shippingValue);
         if (totalPrice.compareTo(BigDecimal.valueOf(500)) > 0) {
