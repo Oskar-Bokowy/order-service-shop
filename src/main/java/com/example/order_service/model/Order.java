@@ -39,13 +39,12 @@ public class Order {
         items.add(item);
         item.setOrder(this);
     }
-
     public void calculateTotalPrice() {
         BigDecimal itemsTotal = items.stream()
                 .map(item -> item.getPriceAtPurchase()
                         .multiply(BigDecimal.valueOf(item.getQuantity())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
-        BigDecimal discountValue = discount != null ? discount : BigDecimal.ZERO;
+        BigDecimal discountValue = resolveDiscount();
         if (discountValue.compareTo(itemsTotal) > 0) {
             discountValue = itemsTotal;
         }
@@ -54,6 +53,10 @@ public class Order {
         if (totalPrice.compareTo(BigDecimal.valueOf(500)) > 0) {
             this.totalPrice = totalPrice.subtract(totalPrice.multiply(BigDecimal.valueOf(0.05)));
         }
+    }
+
+    private BigDecimal resolveDiscount() {
+        return discount != null ? discount : BigDecimal.ZERO;
     }
 }
 

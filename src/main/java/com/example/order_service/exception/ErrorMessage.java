@@ -2,7 +2,7 @@ package com.example.order_service.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
+
 
 import java.time.LocalDateTime;
 
